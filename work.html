@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>react_work</title>
+    <link rel="stylesheet" href="work.css">
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
+    <script src="lib/jquery-1.9.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<div id="formPopup"></div>
+<script type="text/babel">
+    var data = {
+        type:[],
+        status:"preview"
+    };
+    var ContentBox = React.createClass({
+        getInitialState: function() {
+            return {data: data};
+        },
+        render:function () {
+            return (
+                    <div className="contentBox">
+                        <ContentHeader data = {this.props.data} />
+                        <ContentList data = {this.props.data} />
+                        <ContentFooter />
+                    </div>
+            )
+        }
+    });
+    var ContentList = React.createClass({
+        render:function () {
+            var contentNodes = this.props.data.type.map(function (type,index) {
+                return (
+                        <Content type = {type} index = {index}></Content>
+                )
+            });
+            return (
+                    <section>
+                        <ul>
+                            {contentNodes}
+                        </ul>
+                    </section>
+            )
+        }
+    });
+    var Content = React.createClass({
+        removeStatus:function () {
+//            alert(this.props.num);
+            var index = this.props.index;
+            data.type.splice(index,1);
+            ReactDOM.render(
+                    <ContentBox data = {data} />,
+                    document.getElementById("content")
+            );
+        },
+        render:function () {
+            var content = "";
+            if (data.status == "preview"){
+                content = (
+                        <li>
+                            {this.props.type}
+                            <p></p>
+                            <button onClick = {this.removeStatus} index = {this.props.index}>-</button>
+                        </li>
+                )
+            }else {
+                content = (
+                        <li>
+                            {this.props.type}
+                            <p></p>
+                        </li>
+                )
+            }
+            return content;
+        }
+    });
+    var ContentHeader = React.createClass({
+        changeStatus:function () {
+            if(data.status == "preview"){
+                data.status = "edit";
+            }else {
+                data.status = "preview";
+            }
+            ReactDOM.render(
+                    <ContentBox data = {data} />,
+                    document.getElementById("content")
+            );
+        },
+        render:function () {
+            return (
+                    <header><button onClick={this.changeStatus}>{this.props.data.status}</button></header>
+            )
+        }
+    });
+    var ContentFooter = React.createClass({
+        showPupup:function () {
+            $("#popup").show();
+            ReactDOM.render(
+                    <ContentPopup />,
+                    document.getElementById("formPopup")
+            )
+        },
+        render:function () {
+            var footerButtonValue = "";
+            if (data.status == "preview"){
+                footerButtonValue = (
+                        <footer><button onClick={this.showPupup}>add</button></footer>
+                )
+            }else {
+                footerButtonValue = (
+                        <footer><button>save</button></footer>
+                )
+            }
+            return footerButtonValue;
+        }
+    });
+    var ContentPopup = React.createClass({
+        chosePopup:function () {
+            $("#popup").hide();
+        },
+        addFormType:function () {
+            this.chosePopup();
+            var value = $("#popup input[name='type']:checked").val();
+            data.type.push(value);
+            ReactDOM.render(
+                    <ContentBox data = {data} />,
+                    document.getElementById("content")
+            );
+        },
+       render:function () {
+           return (
+                   <div id="popup">
+                       <form action="">
+                           <input type="radio" name="type" value="text" />text<br/>
+                           <input type="radio" name="type" value="date" />date<br/>
+                           <button type="button" onClick={this.addFormType}>determine</button>
+                           <p onClick={this.chosePopup}>×</p>
+                       </form>
+                   </div>
+           )
+       }
+    });
+    ReactDOM.render(
+            <ContentBox data = {data} />,
+            document.getElementById("content")
+    );
+</script>
+</body>
+</html>

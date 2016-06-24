@@ -1,0 +1,70 @@
+@charset "UTF-8";
+body,html{
+    margin: 0;
+    padding:0;
+}
+header{
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+}
+header button{
+    width: 80px;
+    height: 40px;
+}
+section{
+    width: 100%;
+}
+section ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+section ul li{
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+}
+section ul li p{
+    display: inline-block;
+    position: relative;
+    top: 15px;
+    width: 200px;
+    height: 40px;
+    border: 1px solid black;
+    margin: 0 30px;
+}
+#popup{
+    /*display: none;*/
+    position: absolute;
+    top: 30px;
+    left: 350px;
+    width: 600px;
+    height: 200px;
+    box-shadow: 2px 2px 9px #666666;
+    background-color: white;
+    text-align: center;
+    padding-top: 100px;
+}
+#popup button{
+    margin-top: 40px;
+}
+#popup p{
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 28px;
+    cursor: pointer;
+    margin: 0;
+}
+footer{
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+}
+footer button{
+    width: 80px;
+    height: 40px;
+}
